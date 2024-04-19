@@ -1,0 +1,28 @@
+<div class="flex justify-between bg-gray-500 p-2 w-screen">
+    <div class="flex sm:ml-6">
+        <a href="#!/patient" class="my-auto text-lg me-5 text-white">Patient</a>
+        <div class="flex space-x-4">
+            <a
+                href="#!/patient/findAppointment"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Find Appointment</a
+            >
+            <a
+                href="#!/patient/findMyAppointment"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >My Appointment</a
+            >
+            <a
+                href="#!/patient/doctors"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Doctors</a
+            >
+        </div>
+    </div>
+    <div
+        ng-click="logoutHandler()"
+        class="hover:cursor-pointer my-auto text-lg text-white px-5"
+    >
+        Logout
+    </div>
+</div>

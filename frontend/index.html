@@ -1,0 +1,97 @@
+<html class="bg-slate-200">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="./controller/loginController.js" defer></script>
+    <script src="./controller/doctorController.js" defer></script>
+    <script src="./controller/patientController.js" defer></script>
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+        <div ng-view></div>
+
+        <script>
+            var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function ($routeProvider, $locationProvider) {
+                $routeProvider
+                    .when("/login", {
+                        templateUrl: "./views/login.html",
+                        controller: "LoginController",
+                    })
+                    .when("/register", {
+                        templateUrl: "./views/register.html",
+                        controller: "RegisterController",
+                    })
+                    .when("/doctor", {
+                        templateUrl: "./views/doctor/dashboard.html",
+                        controller: "DoctorDashboardController",
+                    })
+                    .when("/doctor/appointment", {
+                        templateUrl: "./views/doctor/appointments.html",
+                        controller: "DoctorAppointmentController",
+                    })
+                    .when("/doctor/patients", {
+                        templateUrl: "./views/doctor/patients.html",
+                        controller: "DoctorPatientController",
+                    })
+                    .when("/patient", {
+                        templateUrl: "./views/patient/dashboard.html",
+                        controller: "PatientDashboardController",
+                    })
+                    .when("/patient/findAppointment", {
+                        templateUrl: "./views/patient/findAppointment.html",
+                        controller: "PatientFindAppointmentController",
+                    })
+                    .when("/patient/findMyAppointment", {
+                        templateUrl: "./views/patient/myAppointment.html",
+                        controller: "PatientMyAppointmentController",
+                    })
+                    .when("/patient/doctors", {
+                        templateUrl: "./views/patient/doctors.html",
+                        controller: "PatientDoctorController",
+                    });
+                $locationProvider.html5Mode(false);
+            });
+            app.run(function ($rootScope, $location, $route) {
+                // Check if the user is logged in when the application starts
+                $rootScope.$on(
+                    "$routeChangeStart",
+                    function (event, next, current) {
+                        console.log($route);
+                        if (
+                            localStorage.getItem("userId") == null &&
+                            $location.absUrl() !=
+                                "http://127.0.0.1:5500/frontend/#!/register"
+                        ) {
+                            console.log("hii");
+                            $location.path("login");
+                        } else {
+                            console.log("hii1");
+                            console.log($location.absUrl());
+                            if (
+                                $location.absUrl() ==
+                                "http://127.0.0.1:5500/frontend/#!/login"
+                            ) {
+                                $location.path(
+                                    localStorage.getItem("role").toLowerCase()
+                                );
+                            }
+                        }
+                    }
+                );
+            });
+
+            app.controller("myCtrl", function ($scope, $location) {
+                $scope.logoutHandler = function () {
+                    localStorage.removeItem("userId");
+                    $location.path("login");
+                };
+            });
+        </script>
+    </body>
+</html>

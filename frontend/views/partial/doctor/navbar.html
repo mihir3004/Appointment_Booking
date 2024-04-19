@@ -1,0 +1,33 @@
+<div class="flex justify-between bg-gray-500 p-2 w-screen">
+    <div class="flex sm:ml-6">
+        <a href="#!/doctor" class="my-auto text-lg me-5 text-white">Doctor</a>
+        <div class="flex space-x-4">
+            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+
+            <a
+                href="#!/doctor/profile"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Profile</a
+            >
+
+            <a
+                href="#!/doctor/appointment"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Appointment</a
+            >
+            <a
+                href="#!/doctor/patients"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Patients</a
+            >
+
+            <!-- Add more navigation links as needed -->
+        </div>
+    </div>
+    <div
+        ng-click="logoutHandler()"
+        class="hover:cursor-pointer my-auto text-lg text-white px-5"
+    >
+        Logout
+    </div>
+</div>

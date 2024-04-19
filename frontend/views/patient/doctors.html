@@ -1,0 +1,194 @@
+<div ng-include="'./views/partial/patient/navbar.html'"></div>
+
+<div class="mx-auto py-6 md:px-20 px-0">
+    <input
+        type="text"
+        ng-model="searchQuery"
+        placeholder="Search by Name or Email"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
+    />
+
+    <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
+        <thead class="bg-gray-500 text-white uppercase text-sm leading-normal">
+            <tr>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('name')"
+                >
+                    Name
+                    <span
+                        ng-if="sortColumn === 'name' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'name' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'name' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('email')"
+                >
+                    Email
+                    <span
+                        ng-if="sortColumn === 'email' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'email' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'email' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('role')"
+                >
+                    Role
+                    <span
+                        ng-if="sortColumn === 'role' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'role' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'role' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('education')"
+                >
+                    Education
+                    <span
+                        ng-if="sortColumn === 'education' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'education' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'education' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('speciality')"
+                >
+                    Speciality
+                    <span
+                        ng-if="sortColumn === 'speciality' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'speciality' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'speciality' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('startTime')"
+                >
+                    Availability
+                    <span
+                        ng-if="sortColumn === 'startTime' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'startTime' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'startTime' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-500 text-md font-normal">
+            <tr
+                ng-repeat="user in filteredDoctors = (doctors | filter: searchQuery | orderBy: sortColumn:sortReverse)"
+            >
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.name }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.email }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.role }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.education }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.speciality }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.startTime | date:'HH:mm' }} - {{ user.endTime |
+                    date:'HH:mm' }}
+                </td>
+            </tr>
+            <tr ng-if="filteredDoctors.length === 0">
+                <td
+                    colspan="6"
+                    class="py-3 px-6 border-b border-gray-200 text-center"
+                >
+                    No matching records found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

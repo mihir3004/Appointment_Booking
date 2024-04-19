@@ -1,0 +1,97 @@
+<div ng-include="'./views/partial/patient/navbar.html'"></div>
+<div class="sm:w-10/12 mx-auto w-10/12 px-10 py-10">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                Find Appointment
+            </h2>
+            <form ng-submit="searchAppointment()">
+                <div class="mb-4">
+                    <label
+                        for="date"
+                        class="block text-sm font-medium text-gray-600"
+                        >Date</label
+                    >
+                    <input
+                        type="date"
+                        id="date"
+                        ng-model="date"
+                        class="mt-1 block p-2 w-full rounded-md focus:outline-gray-300 outline-gray-100 border outline shadow-sm"
+                    />
+                </div>
+                <div class="mb-6 flex space-x-1">
+                    <div class="w-1/2">
+                        <label for="startTime" class="block text-gray-700"
+                            >Start Time</label
+                        >
+                        <input
+                            type="time"
+                            id="startTime"
+                            ng-model="startTime"
+                            class="mt-1 block w-full p-2 focus:outline-gray-300 outline-gray-100 border outline rounded-md shadow-sm"
+                        />
+                    </div>
+                    <div class="w-1/2">
+                        <label for="endTime" class="block text-gray-700"
+                            >End Time</label
+                        >
+                        <input
+                            type="time"
+                            id="endTime"
+                            ng-model="endTime"
+                            class="mt-1 block w-full p-2 focus:outline-gray-200 outline-gray-100 border outline rounded-md shadow-sm"
+                        />
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label
+                        for="doctor"
+                        class="block text-sm font-medium text-gray-600"
+                        >Doctor</label
+                    >
+                    <select
+                        id="doctor"
+                        ng-model="doctor"
+                        class="mt-1 block w-full py-2 px-3 border-gray-300 bg-white rounded-md shadow-sm focus:outline-gray-200 outline-gray-100 border outline focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option value="0">Select Doctor</option>
+                        <option
+                            value="{{user._id}}"
+                            ng-repeat="user in doctors"
+                        >
+                            {{user.name}}
+                        </option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="flex justify-center">
+                    <button
+                        type="submit"
+                        class="bg-indigo-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-indigo-600 focus:outline-gray-200 outline-gray-100 border outline focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    >
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="sm:w-10/12 mx-auto w-10/12 px-10" ng-if="status!=-1">
+    <div
+        class="bg-white rounded-lg shadow-md overflow-hidden py-5 px-7 flex justify-evenly"
+    >
+        <div ng-if="status==0" class="text-3xl font-bold text-green-500">
+            Doctor is Available
+        </div>
+        <div ng-if="status==1" class="text-3xl font-bold text-red-500">
+            Not Available
+        </div>
+        <button
+            ng-if="status==0"
+            ng-click="bookNow()"
+            class="bg-purple-500 shadow-xl font-bold text-white text-xl py-2 px-5 rounded-md"
+        >
+            Book Now
+        </button>
+    </div>
+</div>
