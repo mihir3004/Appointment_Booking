@@ -12,6 +12,28 @@ router.get("/findDoctors", async (req, res) => {
     const doctor = await users.find({ role: "DOCTOR", is_active: 1 });
     res.send(doctor);
 });
+router.post("/findMyAppointments", async (req, res) => {
+    let date = new Date(req.body.date);
+    date.setDate(date.getDate() - 1);
+    const appointment = await appointments
+        .find({
+            patientId: new mongoose.Types.ObjectId(req.body.patient),
+            date: { $gte: date },
+            is_active: 1,
+        })
+        .populate({
+            path: "patientId",
+
+            select: "-password ",
+        })
+        .populate({
+            path: "doctorId",
+
+            select: "-password ",
+        });
+    // console.log(appointment);
+    res.send(appointment);
+});
 router.post("/findAppointments", async (req, res) => {
     console.log(req.body);
     const id = new mongoose.Types.ObjectId(req.body.doctor);
@@ -27,6 +49,7 @@ router.post("/findAppointments", async (req, res) => {
         doctorId: id,
         date: { $gte: startDate, $lte: endDate },
         status: { $ne: "REJECTED" },
+        is_active: 1,
     });
     console.log(appointment);
     let requestStartTime = new Date(req.body.startTime).getHours();
@@ -42,20 +65,23 @@ router.post("/findAppointments", async (req, res) => {
     if (appointment.length == 0) {
         res.send({ status: 0, message: "Doctor is Available" });
         return;
-    } else {
-        // let flag = true;
-        appointment.forEach((element) => {
-            console.log(new Date(element.end).getHours(), requestStartTime);
-            if (
-                new Date(element.end).getHours() <= requestStartTime ||
-                new Date(element.start).getHours() >= requestStartTime
-            ) {
-                res.send({ status: 1, message: "Doctor is Not Available" });
-                return;
-            }
-        });
+    }
+    let isDoctorAvailable = true;
+
+    appointment.forEach((element) => {
+        console.log(new Date(element.end).getHours(), requestStartTime);
+        if (
+            new Date(element.end).getHours() <= requestStartTime ||
+            new Date(element.start).getHours() >= requestStartTime
+        ) {
+            isDoctorAvailable = false;
+        }
+    });
+
+    if (isDoctorAvailable) {
         res.send({ status: 0, message: "Doctor is Available" });
-        return;
+    } else {
+        res.send({ status: 1, message: "Doctor is Not Available" });
     }
 });
 router.post("/bookAppointment", async (req, res) => {
@@ -74,6 +100,7 @@ router.post("/bookAppointment", async (req, res) => {
             start: new Date(req.body.startTime),
             end: new Date(req.body.endTime),
             status: "PENDING",
+            is_active: 1,
         });
         await newAppointment.save();
         res.send({ status: 0, message: "Your Appointment has been booked" });
@@ -101,10 +128,18 @@ router.post("/bookAppointment", async (req, res) => {
             start: new Date(req.body.startTime),
             end: new Date(req.body.endTime),
             status: "PENDING",
+            is_active: 1,
         });
         await newAppointment.save();
         res.send({ status: 0, message: "Your Appointment has been booked" });
         return;
     }
+});
+router.post("/deleteAppointment", async (req, res) => {
+    // console.log(req.body.id);
+    let appointment = await appointments.findOne({ _id: req.body.id });
+    appointment.is_active = 0;
+    await appointment.save();
+    res.send({ status: 1 });
 });
 module.exports = router;

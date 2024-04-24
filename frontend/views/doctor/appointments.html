@@ -1,1 +1,201 @@
 <div ng-include="'./views/partial/doctor/navbar.html'"></div>
+
+<div class="mx-auto py-6 md:px-20 px-0">
+    <input
+        type="text"
+        ng-model="searchQuery"
+        placeholder="Search by Name or Email"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
+    />
+
+    <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
+        <thead class="bg-gray-500 text-white uppercase text-sm leading-normal">
+            <tr>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('$index')"
+                >
+                    Sr No.
+                    <span
+                        ng-if="sortColumn === '$index' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === '$index' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== '$index' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('patientId.name')"
+                >
+                    Patient Name
+                    <span
+                        ng-if="sortColumn === 'patientId.name' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'patientId.name' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'patientId.name' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('date')"
+                >
+                    Date
+                    <span
+                        ng-if="sortColumn === 'date' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'date' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'date' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('start')"
+                >
+                    Timing
+                    <span
+                        ng-if="sortColumn === 'start' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'start' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'start' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th
+                    class="py-3 px-6 text-left cursor-pointer"
+                    ng-click="sortBy('status')"
+                >
+                    Status
+                    <span
+                        ng-if="sortColumn === 'status' && sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn === 'status' && !sortReverse"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                    <span
+                        ng-if="sortColumn !== 'status' || sortColumn === ''"
+                        class="ml-1"
+                    >
+                        <i class="fas fa-sort"></i>
+                    </span>
+                </th>
+                <th class="py-3 px-6 text-left cursor-pointer">Action</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-500 text-md font-normal">
+            <tr
+                ng-repeat="user in filteredAppointments = (appointments | filter: searchQuery | orderBy: sortColumn:sortReverse)"
+            >
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ $index+1 }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.patientId.name }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.date | date}}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    {{ user.start | date:'HH:mm' }} - {{ user.end | date:'HH:mm'
+                    }}
+                </td>
+                <td class="py-3 px-6 border-b border-gray-200">
+                    <span
+                        class="px-2 text-xs font-bold rounded-md shadow-lg bg-yellow-300 text-black w-auto"
+                        ng-if="user.status=='PENDING'"
+                    >
+                        {{ user.status }}
+                    </span>
+                    <span
+                        class="px-2 text-xs font-bold rounded-md shadow-lg bg-red-500 text-white"
+                        ng-if="user.status=='REJECTED'"
+                    >
+                        {{ user.status }}
+                    </span>
+                    <span
+                        class="px-2 text-xs font-bold rounded-md shadow-lg bg-green-500 text-white"
+                        ng-if="user.status=='APPROVED'"
+                    >
+                        {{ user.status }}
+                    </span>
+                </td>
+                <td class="py-3 px-6 border-b flex space-x-2 border-gray-200">
+                    <div>
+                        <button
+                            class="py-2 px-3 bg-green-500 text-white rounded-md"
+                            ng-click="approve(user)"
+                        >
+                            Approve
+                        </button>
+                        <button
+                            class="py-2 px-3 bg-red-500 text-white rounded-md"
+                            ng-click="reject(user)"
+                        >
+                            Reject
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="filteredAppointments.length === 0">
+                <td
+                    colspan="6"
+                    class="py-3 px-6 border-b border-gray-200 text-center"
+                >
+                    No matching records found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

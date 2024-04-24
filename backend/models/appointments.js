@@ -6,6 +6,7 @@ const appointmentsSchema = new mongoose.Schema({
     start: Date,
     status: String,
     end: Date,
+    is_active: Number,
 });
 const appointmentModel = mongoose.model("appointments", appointmentsSchema);
 module.exports = appointmentModel;

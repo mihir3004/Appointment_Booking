@@ -69,5 +69,5 @@ app.listen(3000, () => {
 const patientRoutes = require("./routes/patient");
 app.use("/patient", patientRoutes);
 
-// const doctorRoutes = require("./routes/doctor");
-// app.use("/doctor", doctorRoutes);
+const doctorRoutes = require("./routes/doctor");
+app.use("/doctor", doctorRoutes);
